@@ -1,0 +1,68 @@
+---
+
+# ----------------------------------------------------------------------
+- name: "check if moosh is already installed (1)"
+  command: "./moosh --help"
+  args:
+    chdir: "{{ ez123_moosh__bin_dir }}"
+  register: _X_moosh_ver_0
+  changed_when: false
+  failed_when: false
+
+- set_fact:
+    _T_moosh_runs_ok: "{{
+        (_X_moosh_ver_0.rc == 1) and
+        (_X_moosh_ver_0.stdout |search( ez123_moosh__test_regexp ))
+      }}"
+
+
+- name: "check if moosh install dir exists"
+  stat:
+    path: "{{ ez123_moosh__install_dir }}"
+  register: _X_moosh__install_dir
+
+- set_fact:
+    _T_moosh__src_dir_exists: "{{
+        _X_moosh__install_dir.stat.isdir is defined and
+        _X_moosh__install_dir.stat.isdir
+      }}"
+
+- name: "check if moosh php file exists"
+  stat:
+    path: "{{ ez123_moosh__install_dir }}/moosh.php"
+  register: _X_moosh__mooshphp
+
+- set_fact:
+    _T_moosh__src_php_exists: "{{
+        _X_moosh__mooshphp.stat.isreg is defined and
+        _X_moosh__mooshphp.stat.isreg
+      }}"
+
+# ----------------------------------------------------------------------
+- include: ./install.yml
+  when: "{{
+      not _T_moosh_runs_ok or
+      not _T_moosh__src_dir_exists or
+      not _T_moosh__src_php_exists
+      }}"
+
+# ----------------------------------------------------------------------
+- name: "check if moosh is running (2)"
+  command: "./moosh --help"
+  args:
+    chdir: "{{ ez123_moosh__bin_dir }}"
+  register: _X_moosh_ver_1
+  changed_when: false
+  failed_when: "{{
+      not (
+        (_X_moosh_ver_1.rc == 1) and
+        (_X_moosh_ver_1.stdout |search( ez123_moosh__test_regexp ))
+      )
+    }}"
+
+# ----------------------------------------------------------------------
+- name: "make sure [ ~/.moosh/plugins.json ] exists"
+  shell: "./moosh plugin-list > /dev/null"
+  args:
+    chdir: "{{ ez123_moosh__bin_dir }}"
+  changed_when: false

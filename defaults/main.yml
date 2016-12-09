@@ -1,0 +1,10 @@
+---
+
+ez123_moosh__install_dir: "/ops/src/moosh"
+ez123_moosh__bin_dir:     "/usr/local/bin"
+
+ez123_moosh__git_repo:    "git://github.com/tmuras/moosh.git"
+ez123_moosh__git_branch:  "master"
+
+ez123_moosh__composer_bin: "{{ ez123_moosh__bin_dir }}/composer"
+ez123_moosh__test_regexp:  "^moosh version"

@@ -1,0 +1,46 @@
+---
+# ----------------------------------------------------------------------
+- name: "create moosh dir parent dir if needed"
+  file:
+    path: "{{ ez123_moosh__install_dir |dirname }}"
+    state: directory
+
+# ----------------------------------------------------------------------
+- name: "git clone and/or pull"
+  git:
+    repo:    "{{ ez123_moosh__git_repo     }}"
+    dest:    "{{ ez123_moosh__install_dir  }}"
+    version: "{{ ez123_moosh__git_branch  |default(omit) }}"
+    update:  yes
+    accept_hostkey: yes
+    depth: 1
+    #force: yes
+  register: _X_moosh__git_clone
+
+# ----------------------------------------------------------------------
+- name: "Calling PHP's composer to install moosh"
+  command: "{{ ez123_moosh__composer_bin }} install --no-progress --no-interaction"
+  args:
+    chdir: "{{ ez123_moosh__install_dir }}"
+  register: _X_moosh__composer_install
+
+# ----------------------------------------------------------------------
+- name: "check if moosh is running before creating the symlink"
+  command: "{{ ez123_moosh__install_dir }}/moosh.php --help"
+  changed_when: false
+  register: _X_moosh_ver
+  failed_when: "{{
+      not (
+        (_X_moosh_ver.rc == 1) and
+        (_X_moosh_ver.stdout |search( ez123_moosh__test_regexp ))
+      )
+    }}"
+
+
+# ----------------------------------------------------------------------
+- name: "Create symlink in bin dir"
+  file:
+    src:  "{{ ez123_moosh__install_dir }}/moosh.php"
+    dest: "{{ ez123_moosh__bin_dir }}/moosh"
+    state: link
+    mode: "a+x"
