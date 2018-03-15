@@ -19,10 +19,14 @@
 
 # ----------------------------------------------------------------------
 - name: "Calling PHP's composer to install moosh"
-  command: "{{ ez123_moosh__composer_bin }} install --no-progress --no-interaction"
-  args:
-    chdir: "{{ ez123_moosh__install_dir }}"
-  register: _X_moosh__composer_install
+  composer:
+    command: install
+    working_dir: "{{ ez123_moosh__install_dir }}"
+  register: _X_moosh__composer_install_x
+  # command: "{{ ez123_moosh__composer_bin }} install --no-progress --no-interaction"
+  # args:
+  #   chdir: "{{ ez123_moosh__install_dir }}"
+  # register: _X_moosh__composer_install
 
 # ----------------------------------------------------------------------
 - name: "check if moosh is running before creating the symlink"
