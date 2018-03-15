@@ -29,12 +29,11 @@
   command: "{{ ez123_moosh__install_dir }}/moosh.php --help"
   changed_when: false
   register: _X_moosh_ver
-  failed_when: "{{
+  failed_when:
       not (
         (_X_moosh_ver.rc == 1) and
-        (_X_moosh_ver.stdout |search( ez123_moosh__test_regexp ))
+        (_X_moosh_ver.stdout is search( ez123_moosh__test_regexp ))
       )
-    }}"
 
 
 # ----------------------------------------------------------------------

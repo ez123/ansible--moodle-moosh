@@ -1,5 +1,7 @@
 ---
 
+ez123_moosh__skip_all:    false
+
 ez123_moosh__install_dir: "/ops/src/moosh"
 ez123_moosh__bin_dir:     "/usr/local/bin"
 
