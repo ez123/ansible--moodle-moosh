@@ -35,8 +35,13 @@
   register: _X_moosh_ver
   failed_when:
       not (
-        (_X_moosh_ver.rc == 1) and
-        (_X_moosh_ver.stdout is search( ez123_moosh__test_regexp ))
+        (
+          (_X_moosh_ver.rc == 0) and
+          (_X_moosh_ver.stdout is search( ez123_moosh__test_regexp ))
+        ) or (
+          (_X_moosh_ver.rc == 1) and
+          (_X_moosh_ver.stdout is search( ez123_moosh__test_regexp ))
+        )
       )
 
 
