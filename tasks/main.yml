@@ -44,7 +44,7 @@
       }}"
 
 # ----------------------------------------------------------------------
-- include: ./install.yml
+- include_tasks: ./install.yml
   when:
       not _T_moosh_runs_ok or
       not _T_moosh__src_dir_exists or
