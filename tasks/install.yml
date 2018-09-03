@@ -18,15 +18,20 @@
   register: _X_moosh__git_clone
 
 # ----------------------------------------------------------------------
+- name: "..."
+  shell: "echo $PATH"
+
+# ----------------------------------------------------------------------
 - name: "Calling PHP's composer to install moosh"
-  composer:
-    command: install
-    working_dir: "{{ ez123_moosh__install_dir }}"
-  register: _X_moosh__composer_install_x
-  # command: "{{ ez123_moosh__composer_bin }} install --no-progress --no-interaction"
-  # args:
-  #   chdir: "{{ ez123_moosh__install_dir }}"
-  # register: _X_moosh__composer_install
+  # composer:
+  #   command: install
+  #   working_dir: "{{ ez123_moosh__install_dir }}"
+  # register: _X_moosh__composer_install_x
+  # for some reason, as of 2018-09-03, ~/bin is not being recognized... so going back in time
+  command: "{{ ez123_moosh__composer_bin }} install --no-interaction"
+  args:
+    chdir: "{{ ez123_moosh__install_dir }}"
+  register: _X_moosh__composer_install
 
 # ----------------------------------------------------------------------
 - name: "check if moosh is running before creating the symlink"
