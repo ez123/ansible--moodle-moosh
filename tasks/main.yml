@@ -15,7 +15,7 @@
           (_X_moosh_ver_0.rc == 0) and
           ((_X_moosh_ver_0.stdout |default('')) is search( ez123_moosh__test_regexp ))
         ) or (
-          (_X_moosh_ver_0.rc == 1) and
+          ((_X_moosh_ver_0.rc == 1) or (_X_moosh_ver_0.rc == 10)) and
           ((_X_moosh_ver_0.stdout |default('')) is search( ez123_moosh__test_regexp ))
         )
       }}"
@@ -63,7 +63,7 @@
           (_X_moosh_ver_1.rc == 0) and
           ((_X_moosh_ver_1.stdout |default('')) is search( ez123_moosh__test_regexp ))
         ) or (
-          (_X_moosh_ver_1.rc == 1) and
+          ((_X_moosh_ver_1.rc == 1) or ((_X_moosh_ver_1.rc == 10))) and
           ((_X_moosh_ver_1.stdout |default('')) is search( ez123_moosh__test_regexp ))
         )
       )

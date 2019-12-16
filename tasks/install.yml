@@ -44,7 +44,7 @@
           (_X_moosh_ver.rc == 0) and
           ((_X_moosh_ver.stdout |default('')) is search( ez123_moosh__test_regexp ))
         ) or (
-          (_X_moosh_ver.rc == 1) and
+          ((_X_moosh_ver.rc == 1) or (_X_moosh_ver.rc == 10)) and
           ((_X_moosh_ver.stdout |default('')) is search( ez123_moosh__test_regexp ))
         )
       )
